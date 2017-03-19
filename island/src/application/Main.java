@@ -1,5 +1,8 @@
 package application;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -18,15 +22,32 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class Main extends Application {
+	private String selected;
+	
+	ListView<HBox> scrollList = new ListView<HBox>();
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			// monster image
 			Image monsterImage = new Image("application/images/sw.png");
+
 			ImageView monsterIV = new ImageView(monsterImage);
+
+			monsterIV.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent event) {
+					System.out.println("clicked picture");
+					selected = "ef";
+					event.consume();
+				}
+			});
 
 			Label monsterSummoned = new Label("no monster summoned");
 
@@ -35,39 +56,61 @@ public class Main extends Application {
 			summonButton.setText("Summon");
 
 			// scroll section
-			VBox scrollVBox = new VBox();
+			VBox scrollVBox = new VBox(10);
 
 			Label scrollSelectedLabel = new Label("Please select a scroll");
+			scrollSelectedLabel.setTranslateY(30);
+			scrollVBox.getChildren().add(scrollSelectedLabel);
 
 			ToggleGroup scrollTG = new ToggleGroup();
 
-			RadioButton scrollRB1 = new RadioButton("Light & Darkness");
-			scrollRB1.setToggleGroup(scrollTG);
-			scrollRB1.setUserData("Light & Darkness Scroll");
-			RadioButton scrollRB2 = new RadioButton("Mystical");
-			scrollRB2.setToggleGroup(scrollTG);
-			scrollRB2.setUserData("Mystical Scroll");
+			Map<String, String> scrollOptions = new HashMap<String, String>();
+			scrollOptions.put("LD", "Light & Dark Scroll");
+			scrollOptions.put("MS", "Mystical Scroll");
+			scrollOptions.put("LS", "Legendary Scroll");
 
-			scrollVBox.getChildren().addAll(scrollSelectedLabel, scrollRB1, scrollRB2);
-			scrollVBox.setMargin(scrollRB1, new Insets(100, 0, 20, 0));
+			for (Map.Entry<String, String> entry : scrollOptions.entrySet()) {
+				HBox scrollHBox = new HBox(5);
+
+				Image scrollImage = new Image("application/images/" + entry.getKey() + ".png");
+				ImageView scrollIV = new ImageView(scrollImage);
+
+				RadioButton rb = new RadioButton(entry.getValue());
+				rb.setToggleGroup(scrollTG);
+				rb.setUserData(entry.getKey());
+				rb.getStyleClass().remove("radio-button");
+				rb.getStyleClass().add("toggle-button");
+
+				HBox.setHgrow(rb, Priority.ALWAYS);
+				rb.setMaxWidth(Double.MAX_VALUE);
+				rb.setTranslateY(40);
+
+				scrollHBox.getChildren().addAll(scrollIV, rb);
+				scrollHBox.setTranslateY(75);
+				scrollVBox.getChildren().add(scrollHBox);
+			}
 
 			// summon button event
 			EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
-					if (scrollTG.getSelectedToggle().getUserData().toString().contains("Light")) {
-						monsterIV.setImage(new Image("application/images/Valkyrja_(Light)_Icon.png"));
-						monsterSummoned.setText("Summoned valk");
-						System.out.println("1");
-					}
-					else if (scrollTG.getSelectedToggle().getUserData().toString().contains("Mystical")) {
-						monsterIV.setImage(new Image("application/images/oracle.png"));
-						monsterSummoned.setText("Summoned oracle");
-						System.out.println("2");
+					System.out.println("clicked summon button and " + selected);
+
+					if (scrollTG.getSelectedToggle() != null) {
+						if (scrollTG.getSelectedToggle().getUserData().toString().contains("Light")) {
+							monsterIV.setImage(new Image("application/images/Valkyrja_(Light)_Icon.png"));
+							monsterSummoned.setText("Summoned valk");
+							System.out.println("1");
+						}
+						else if (scrollTG.getSelectedToggle().getUserData().toString().contains("Mystical")) {
+							monsterIV.setImage(new Image("application/images/oracle.png"));
+							monsterSummoned.setText("Summoned oracle");
+							System.out.println("2");
+						}
 					}
 				}
 			};
-			
+
 			// Registering the event filter
 			summonButton.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
 
@@ -96,7 +139,7 @@ public class Main extends Application {
 			scrollVBox.setLayoutY(10);
 			root.getChildren().add(scrollVBox);
 
-			Scene scene = new Scene(root, 800, 400);
+			Scene scene = new Scene(root, 1000, 600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 			primaryStage.setScene(scene);
