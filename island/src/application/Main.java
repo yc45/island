@@ -1,14 +1,17 @@
 package application;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,9 +30,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class Main extends Application {
-	private String selected;
-	
-	ListView<HBox> scrollList = new ListView<HBox>();
+	String scrollSelected = "None";
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -44,7 +45,7 @@ public class Main extends Application {
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("clicked picture");
-					selected = "ef";
+					scrollSelected = "ef";
 					event.consume();
 				}
 			});
@@ -56,98 +57,84 @@ public class Main extends Application {
 			summonButton.setText("Summon");
 
 			// scroll section
-			VBox scrollVBox = new VBox(10);
-
-			Label scrollSelectedLabel = new Label("Please select a scroll");
-			scrollSelectedLabel.setTranslateY(30);
-			scrollVBox.getChildren().add(scrollSelectedLabel);
-
-			ToggleGroup scrollTG = new ToggleGroup();
-
-			Map<String, String> scrollOptions = new HashMap<String, String>();
-			scrollOptions.put("LD", "Light & Dark Scroll");
-			scrollOptions.put("MS", "Mystical Scroll");
+			Map<String, String> scrollOptions = new LinkedHashMap<String, String>();
 			scrollOptions.put("LS", "Legendary Scroll");
+			scrollOptions.put("LD", "Light & Darkness Scroll");
+			scrollOptions.put("WaS", "Water Scroll");
+			scrollOptions.put("FS", "Fire Scroll");
+			scrollOptions.put("WiS", "Wind Scroll");
+			scrollOptions.put("MS", "Mystical Scroll");
+
+			ListView<HBox> scrollList = new ListView<HBox>();
+			scrollList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent event) {
+					scrollSelected = (String) scrollList.getSelectionModel().getSelectedItem().getChildren().get(1).getUserData();
+				}
+			});
+			ObservableList<HBox> items = FXCollections.observableArrayList();
 
 			for (Map.Entry<String, String> entry : scrollOptions.entrySet()) {
 				HBox scrollHBox = new HBox(5);
 
-				Image scrollImage = new Image("application/images/" + entry.getKey() + ".png");
+				Image scrollImage = new Image("application/images/scrolls/" + entry.getKey() + ".png");
 				ImageView scrollIV = new ImageView(scrollImage);
 
-				RadioButton rb = new RadioButton(entry.getValue());
-				rb.setToggleGroup(scrollTG);
-				rb.setUserData(entry.getKey());
-				rb.getStyleClass().remove("radio-button");
-				rb.getStyleClass().add("toggle-button");
+				Label label = new Label(entry.getValue());
+				label.setUserData(entry.getKey());
 
-				HBox.setHgrow(rb, Priority.ALWAYS);
-				rb.setMaxWidth(Double.MAX_VALUE);
-				rb.setTranslateY(40);
+				HBox.setHgrow(label, Priority.ALWAYS);
+				label.setMaxWidth(Double.MAX_VALUE);
 
-				scrollHBox.getChildren().addAll(scrollIV, rb);
-				scrollHBox.setTranslateY(75);
-				scrollVBox.getChildren().add(scrollHBox);
+				scrollHBox.getChildren().addAll(scrollIV, label);
+				scrollHBox.setAlignment(Pos.CENTER);
+				items.add(scrollHBox);
 			}
+			scrollList.setItems(items);
 
 			// summon button event
-			EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+			summonButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
-					System.out.println("clicked summon button and " + selected);
+					System.out.println("clicked summon button and scroll is " + scrollSelected);
 
-					if (scrollTG.getSelectedToggle() != null) {
-						if (scrollTG.getSelectedToggle().getUserData().toString().contains("Light")) {
-							monsterIV.setImage(new Image("application/images/Valkyrja_(Light)_Icon.png"));
-							monsterSummoned.setText("Summoned valk");
-							System.out.println("1");
-						}
-						else if (scrollTG.getSelectedToggle().getUserData().toString().contains("Mystical")) {
-							monsterIV.setImage(new Image("application/images/oracle.png"));
-							monsterSummoned.setText("Summoned oracle");
-							System.out.println("2");
-						}
-					}
-				}
-			};
-
-			// Registering the event filter
-			summonButton.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
-
-			scrollTG.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-				public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
-					if (scrollTG.getSelectedToggle() != null) {
-						scrollSelectedLabel.setText(scrollTG.getSelectedToggle().getUserData().toString() + " Selected");
-					}
+					monsterIV.setImage(new Image("application/images/sw.png"));
+					monsterSummoned.setText("Summoned valk");
 				}
 			});
 
 			// layout
 			AnchorPane root = new AnchorPane();
 
+			monsterIV.setLayoutX(80);
+			monsterIV.setLayoutY(25);
 			root.getChildren().add(monsterIV);
 
-			monsterSummoned.setLayoutX(150);
+			monsterSummoned.setLayoutX(200);
 			monsterSummoned.setLayoutY(300);
 			root.getChildren().add(monsterSummoned);
 
-			summonButton.setLayoutX(150);
-			summonButton.setLayoutY(350);
+			summonButton.setLayoutX(230);
+			summonButton.setLayoutY(475);
 			root.getChildren().add(summonButton);
 
-			scrollVBox.setLayoutX(550);
-			scrollVBox.setLayoutY(10);
-			root.getChildren().add(scrollVBox);
+			scrollList.setPrefWidth(300);
+			scrollList.setLayoutX(550);
+			scrollList.setLayoutY(40);
+			root.getChildren().add(scrollList);
 
-			Scene scene = new Scene(root, 1000, 600);
+			Scene scene = new Scene(root, 900, 550);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Summon Simulator");
+			primaryStage.setTitle("Summon Island");
 			primaryStage.show();
 
 		}
-		catch (Exception e) {
+		catch (
+
+		Exception e) {
 			e.printStackTrace();
 		}
 	}
