@@ -1,6 +1,8 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javafx.animation.KeyFrame;
@@ -25,30 +27,24 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
 public class Main extends Application {
-	// for root1
 	String scrollSelected = "LS";
-	Button summonButton;
-	
-	// for root 2
 	ImageView monsterIV;
-	Button doneButton;
+	Button summonButton;
 
-	AnchorPane root1, root2;
-	Scene scene1, scene2;
+	AnchorPane root1;
+	Scene scene1;
 	Stage stage;
 
 	@Override
 	public void start(Stage primaryStage) {
 		stage = primaryStage;
-
+		
 		// scroll image
 		Image scrollSelectedImage = new Image("application/images/scrolls/LS.png");
 
 		ImageView scrollSelectedIV = new ImageView(scrollSelectedImage);
 		scrollSelectedIV.setFitWidth(100);
 		scrollSelectedIV.setFitHeight(100);
-
-		Label monsterSummoned = new Label("no monster summoned");
 
 		// summon button
 		summonButton = new Button();
@@ -62,7 +58,6 @@ public class Main extends Application {
 					public void handle(ActionEvent t) {
 						root1.setOpacity(root1.getOpacity() - 0.03);
 						if (root1.getOpacity() < 0.01) {
-							stage.setScene(scene2);
 							tick0.stop();
 							
 							if (scrollSelected.equals("LD")) {
@@ -86,8 +81,9 @@ public class Main extends Application {
 								int index = (int) (Math.random() * count + 1);
 								
 								monsterIV.setImage(new Image("application/images/monsters/ld/ld_unawaken_" + star + "star (" + index + ").png"));
+								System.out.println(monsterIV.getId());
 							}
-							
+							root1.setOpacity(1.0);
 						}
 					}
 				}));
@@ -135,17 +131,6 @@ public class Main extends Application {
 		scrollList.getSelectionModel().select(0);
 		scrollList.getFocusModel().focus(0);
 
-		// for scene 2
-		doneButton = new Button();
-		doneButton.setText("Ok");
-		doneButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				stage.setScene(scene1);
-				root1.setOpacity(1.0);
-			}
-		});
-
 		// layout for scene 1
 		root1 = new AnchorPane();
 
@@ -153,9 +138,11 @@ public class Main extends Application {
 		scrollSelectedIV.setLayoutY(25);
 		root1.getChildren().add(scrollSelectedIV);
 
-		monsterSummoned.setLayoutX(140);
-		monsterSummoned.setLayoutY(300);
-		root1.getChildren().add(monsterSummoned);
+		Image monsterImage = new Image("application/images/blank.png");
+		monsterIV = new ImageView(monsterImage);
+		monsterIV.setLayoutX(160);
+		monsterIV.setLayoutY(225);
+		root1.getChildren().add(monsterIV);
 
 		summonButton.setLayoutX(165);
 		summonButton.setLayoutY(475);
@@ -168,22 +155,6 @@ public class Main extends Application {
 
 		scene1 = new Scene(root1, 900, 550);
 		scene1.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-
-		// layout for scene 2
-		root2 = new AnchorPane();
-
-		Image monsterImage = new Image("application/images/monsters/ld/ld_unawaken_3star (2).png");
-		monsterIV = new ImageView(monsterImage);
-		monsterIV.setLayoutX(160);
-		monsterIV.setLayoutY(25);
-		root2.getChildren().add(monsterIV);
-
-		doneButton.setLayoutX(165);
-		doneButton.setLayoutY(475);
-		root2.getChildren().add(doneButton);
-
-		scene2 = new Scene(root2, 900, 550);
-		scene2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 		primaryStage.setScene(scene1);
 		primaryStage.setTitle("Summon Island");
