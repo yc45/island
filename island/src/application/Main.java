@@ -25,9 +25,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
 public class Main extends Application {
+	// for root1
 	String scrollSelected = "LS";
 	Button summonButton;
 	
+	// for root 2
 	ImageView monsterIV;
 	Button doneButton;
 
@@ -58,12 +60,34 @@ public class Main extends Application {
 				tick0.setCycleCount(Timeline.INDEFINITE);
 				tick0.getKeyFrames().add(new KeyFrame(new Duration(15), new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent t) {
-						System.out.println("opacity is " + root1.getOpacity());
 						root1.setOpacity(root1.getOpacity() - 0.03);
 						if (root1.getOpacity() < 0.01) {
 							stage.setScene(scene2);
 							tick0.stop();
-							monsterIV.setImage(new Image("application/images/monsters/ld/ld_unawaken (173).png"));
+							
+							if (scrollSelected.equals("LD")) {
+								int random = (int) (Math.random() * 200 + 1);
+								int star;
+								int count;
+								
+								if (random <= 184) {
+									star = 3;
+									count = 74;
+								}
+								else if (random <= 199) {
+									star = 4;
+									count = 61;
+								}
+								else {
+									star = 5;
+									count = 36;
+								}
+								
+								int index = (int) (Math.random() * count + 1);
+								
+								monsterIV.setImage(new Image("application/images/monsters/ld/ld_unawaken_" + star + "star (" + index + ").png"));
+							}
+							
 						}
 					}
 				}));
@@ -148,7 +172,7 @@ public class Main extends Application {
 		// layout for scene 2
 		root2 = new AnchorPane();
 
-		Image monsterImage = new Image("application/images/monsters/ld/ld_awaken (1).png");
+		Image monsterImage = new Image("application/images/monsters/ld/ld_unawaken_3star (2).png");
 		monsterIV = new ImageView(monsterImage);
 		monsterIV.setLayoutX(160);
 		monsterIV.setLayoutY(25);
