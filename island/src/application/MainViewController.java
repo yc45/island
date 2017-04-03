@@ -41,6 +41,11 @@ public class MainViewController {
 	private Button summonButton;
 
 	@FXML
+	private ListView<ImageView> historyList;
+	
+	ObservableList<ImageView> monsterHistory = FXCollections.observableArrayList();
+	
+	@FXML
 	private void initialize() {
 		scrollSelectedIV.setImage(new Image("application/images/scrolls/LS.png"));
 
@@ -56,10 +61,12 @@ public class MainViewController {
 						if (root.getOpacity() < 0.01) {
 							tick0.stop();
 
+							int star;
+							int count;
+							int index;
+
 							if (scrollSelected.equals("LD")) {
 								int random = (int) (Math.random() * 200 + 1);
-								int star;
-								int count;
 
 								if (random <= 184) {
 									star = 3;
@@ -74,9 +81,14 @@ public class MainViewController {
 									count = 36;
 								}
 
-								int index = (int) (Math.random() * count + 1);
+								index = (int) (Math.random() * count + 1);
 
 								monsterIV.setImage(new Image("application/images/monsters/ld/ld_unawaken_" + star + "star (" + index + ").png"));
+
+								ImageView monsterSummoned = new ImageView(
+										new Image("application/images/monsters/ld/ld_unawaken_" + star + "star (" + index + ").png"));
+								monsterHistory.add(0, monsterSummoned);
+								historyList.setItems(monsterHistory);
 							}
 							root.setOpacity(1.0);
 						}
@@ -124,5 +136,8 @@ public class MainViewController {
 		scrollList.setItems(items);
 		scrollList.getSelectionModel().select(0);
 		scrollList.getFocusModel().focus(0);
+
+		// history list section
+
 	}
 }
