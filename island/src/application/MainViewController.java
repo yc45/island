@@ -32,6 +32,9 @@ public class MainViewController {
 	private ImageView scrollSelectedIV;
 
 	@FXML
+	private ImageView starIV;
+
+	@FXML
 	private ImageView monsterIV;
 
 	@FXML
@@ -42,61 +45,184 @@ public class MainViewController {
 
 	@FXML
 	private ListView<ImageView> historyList;
-	
+
 	ObservableList<ImageView> monsterHistory = FXCollections.observableArrayList();
-	
+
+	@FXML
+	private void summonButtonMouseClick() {
+		monsterIV.setVisible(true);
+		
+		Timeline tick0 = new Timeline();
+		tick0.setCycleCount(Timeline.INDEFINITE);
+		tick0.getKeyFrames().add(new KeyFrame(new Duration(15), new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				root.setOpacity(root.getOpacity() - 0.03);
+				if (root.getOpacity() < 0.01) {
+					tick0.stop();
+
+					int star;
+					int count;
+					int index;
+					int chance = (int) (Math.random() * 200 + 1);
+
+					if (scrollSelected.equals("LS")) {
+						if (chance <= 188) {
+							star = 4;
+							count = 93;
+						}
+						else {
+							star = 5;
+							count = 55;
+						}
+
+						index = (int) (Math.random() * count + 1);
+
+						monsterIV.setImage(new Image("application/images/monsters/LS/ls_unawaken_" + star + "star (" + index + ").png"));
+						starIV.setImage(new Image("application/images/" + star + "star.png"));
+
+						ImageView monsterSummoned = new ImageView(
+								new Image("application/images/monsters/LS/ls_unawaken_" + star + "star (" + index + ").png"));
+						monsterHistory.add(0, monsterSummoned);
+						historyList.setItems(monsterHistory);
+					}
+					else if (scrollSelected.equals("LD")) {
+						if (chance <= 184) {
+							star = 3;
+							count = 74;
+						}
+						else if (chance <= 199) {
+							star = 4;
+							count = 61;
+						}
+						else {
+							star = 5;
+							count = 36;
+						}
+
+						index = (int) (Math.random() * count + 1);
+
+						monsterIV.setImage(new Image("application/images/monsters/LD/ld_unawaken_" + star + "star (" + index + ").png"));
+						starIV.setImage(new Image("application/images/" + star + "star.png"));
+
+						ImageView monsterSummoned = new ImageView(
+								new Image("application/images/monsters/LD/ld_unawaken_" + star + "star (" + index + ").png"));
+						monsterHistory.add(0, monsterSummoned);
+						historyList.setItems(monsterHistory);
+					}
+					else if (scrollSelected.equals("WaS")) {
+						if (chance <= 184) {
+							star = 3;
+							count = 32;
+						}
+						else if (chance <= 199) {
+							star = 4;
+							count = 31;
+						}
+						else {
+							star = 5;
+							count = 18;
+						}
+
+						index = (int) (Math.random() * count + 1);
+
+						monsterIV.setImage(new Image("application/images/monsters/WaS/water_unawaken_" + star + "star (" + index + ").png"));
+						starIV.setImage(new Image("application/images/" + star + "star.png"));
+
+						ImageView monsterSummoned = new ImageView(
+								new Image("application/images/monsters/WaS/water_unawaken_" + star + "star (" + index + ").png"));
+						monsterHistory.add(0, monsterSummoned);
+						historyList.setItems(monsterHistory);
+					}
+					else if (scrollSelected.equals("FS")) {
+						if (chance <= 184) {
+							star = 3;
+							count = 34;
+						}
+						else if (chance <= 199) {
+							star = 4;
+							count = 31;
+						}
+						else {
+							star = 5;
+							count = 18;
+						}
+
+						index = (int) (Math.random() * count + 1);
+
+						monsterIV.setImage(new Image("application/images/monsters/FS/fire_unawaken_" + star + "star (" + index + ").png"));
+						starIV.setImage(new Image("application/images/" + star + "star.png"));
+
+						ImageView monsterSummoned = new ImageView(
+								new Image("application/images/monsters/FS/fire_unawaken_" + star + "star (" + index + ").png"));
+						monsterHistory.add(0, monsterSummoned);
+						historyList.setItems(monsterHistory);
+					}
+					else if (scrollSelected.equals("WiS")) {
+						if (chance <= 184) {
+							star = 3;
+							count = 29;
+						}
+						else if (chance <= 199) {
+							star = 4;
+							count = 31;
+						}
+						else {
+							star = 5;
+							count = 18;
+						}
+
+						index = (int) (Math.random() * count + 1);
+
+						monsterIV.setImage(new Image("application/images/monsters/WiS/wind_unawaken_" + star + "star (" + index + ").png"));
+						starIV.setImage(new Image("application/images/" + star + "star.png"));
+
+						ImageView monsterSummoned = new ImageView(
+								new Image("application/images/monsters/WiS/wind_unawaken_" + star + "star (" + index + ").png"));
+						monsterHistory.add(0, monsterSummoned);
+						historyList.setItems(monsterHistory);
+					}
+					else if (scrollSelected.equals("MS")) {
+						if (chance <= 184) {
+							star = 3;
+							count = 95;
+						}
+						else if (chance <= 199) {
+							star = 4;
+							count = 93;
+						}
+						else {
+							star = 5;
+							count = 54;
+						}
+
+						index = (int) (Math.random() * count + 1);
+
+						monsterIV.setImage(new Image("application/images/monsters/MS/ms_unawaken_" + star + "star (" + index + ").png"));
+						starIV.setImage(new Image("application/images/" + star + "star.png"));
+
+						ImageView monsterSummoned = new ImageView(
+								new Image("application/images/monsters/MS/ms_unawaken_" + star + "star (" + index + ").png"));
+						monsterHistory.add(0, monsterSummoned);
+						historyList.setItems(monsterHistory);
+					}
+					root.setOpacity(1.0);
+				}
+			}
+		}));
+		tick0.play();
+	}
+
+	@FXML
+	private void scrollListMouseClick() {
+		scrollSelected = (String) scrollList.getSelectionModel().getSelectedItem().getChildren().get(1).getUserData();
+		scrollSelectedIV.setImage(new Image("application/images/scrolls/" + scrollSelected + ".png"));
+	}
+
 	@FXML
 	private void initialize() {
+		monsterIV.setVisible(false);
+		
 		scrollSelectedIV.setImage(new Image("application/images/scrolls/LS.png"));
-
-		// summon button
-		summonButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				Timeline tick0 = new Timeline();
-				tick0.setCycleCount(Timeline.INDEFINITE);
-				tick0.getKeyFrames().add(new KeyFrame(new Duration(15), new EventHandler<ActionEvent>() {
-					public void handle(ActionEvent t) {
-						root.setOpacity(root.getOpacity() - 0.03);
-						if (root.getOpacity() < 0.01) {
-							tick0.stop();
-
-							int star;
-							int count;
-							int index;
-
-							if (scrollSelected.equals("LD")) {
-								int random = (int) (Math.random() * 200 + 1);
-
-								if (random <= 184) {
-									star = 3;
-									count = 74;
-								}
-								else if (random <= 199) {
-									star = 4;
-									count = 61;
-								}
-								else {
-									star = 5;
-									count = 36;
-								}
-
-								index = (int) (Math.random() * count + 1);
-
-								monsterIV.setImage(new Image("application/images/monsters/ld/ld_unawaken_" + star + "star (" + index + ").png"));
-
-								ImageView monsterSummoned = new ImageView(
-										new Image("application/images/monsters/ld/ld_unawaken_" + star + "star (" + index + ").png"));
-								monsterHistory.add(0, monsterSummoned);
-								historyList.setItems(monsterHistory);
-							}
-							root.setOpacity(1.0);
-						}
-					}
-				}));
-				tick0.play();
-			}
-		});
 
 		// scroll list section
 		Map<String, String> scrollOptions = new LinkedHashMap<String, String>();
@@ -106,14 +232,6 @@ public class MainViewController {
 		scrollOptions.put("FS", "Fire Scroll");
 		scrollOptions.put("WiS", "Wind Scroll");
 		scrollOptions.put("MS", "Mystical Scroll");
-
-		scrollList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				scrollSelected = (String) scrollList.getSelectionModel().getSelectedItem().getChildren().get(1).getUserData();
-				scrollSelectedIV.setImage(new Image("application/images/scrolls/" + scrollSelected + ".png"));
-			}
-		});
 
 		ObservableList<HBox> items = FXCollections.observableArrayList();
 
@@ -136,8 +254,5 @@ public class MainViewController {
 		scrollList.setItems(items);
 		scrollList.getSelectionModel().select(0);
 		scrollList.getFocusModel().focus(0);
-
-		// history list section
-
 	}
 }

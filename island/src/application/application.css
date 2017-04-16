@@ -1,1 +1,5 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.background {
+    -fx-background-image: url("file:C:/Users/chen.yu/git/island/island/src/application/images/spring.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 900px, 550px;
+}
