@@ -48,6 +48,19 @@ public class MainViewController {
 
 	ObservableList<ImageView> monsterHistory = FXCollections.observableArrayList();
 
+    @FXML
+    private Label threeStarCountLabel;
+
+    @FXML
+    private Label fourStarCountLabel;
+
+    @FXML
+    private Label fiveStarCountLabel;
+    
+    int threeStarCount = 0;
+    int fourStarCount = 0;
+    int fiveStarCount = 0;
+    
 	@FXML
 	private void summonButtonMouseClick() {
 		monsterIV.setVisible(true);
@@ -60,9 +73,9 @@ public class MainViewController {
 				if (root.getOpacity() < 0.01) {
 					tick0.stop();
 
-					int star;
-					int count;
-					int index;
+					int star = -1;
+					int count = -1;
+					int index = -1;
 					int chance = (int) (Math.random() * 200 + 1);
 
 					if (scrollSelected.equals("LS")) {
@@ -205,6 +218,19 @@ public class MainViewController {
 						monsterHistory.add(0, monsterSummoned);
 						historyList.setItems(monsterHistory);
 					}
+					if (star == 3) {
+						threeStarCount++;
+					}
+					else if (star == 4) {
+						fourStarCount++;
+					}
+					else {
+						fiveStarCount++;
+					}
+					threeStarCountLabel.setText(Integer.toString(threeStarCount));
+					fourStarCountLabel.setText(Integer.toString(fourStarCount));
+					fiveStarCountLabel.setText(Integer.toString(fiveStarCount));
+					
 					root.setOpacity(1.0);
 				}
 			}
