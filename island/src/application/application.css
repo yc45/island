@@ -3,3 +3,7 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 900px, 550px;
 }
+
+.summonButton {
+	 -fx-background-color: #FFC700;
+}
