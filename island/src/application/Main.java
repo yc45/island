@@ -16,6 +16,8 @@ public class Main extends Application {
 
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Summoning Island");
+		primaryStage.setResizable(false);
+		primaryStage.sizeToScene();
 		primaryStage.show();
 	}
 

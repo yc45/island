@@ -14,12 +14,16 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class MainViewController {
@@ -30,6 +34,8 @@ public class MainViewController {
 
 	@FXML
 	private ImageView scrollSelectedIV;
+	
+	DropShadow scrollShadow= new DropShadow();
 
 	@FXML
 	private ImageView starIV;
@@ -37,6 +43,9 @@ public class MainViewController {
 	@FXML
 	private ImageView monsterIV;
 
+	@FXML
+	private StackPane monsterStackPane;
+	
 	@FXML
 	private ListView<HBox> scrollList;
 
@@ -218,6 +227,8 @@ public class MainViewController {
 						monsterHistory.add(0, monsterSummoned);
 						historyList.setItems(monsterHistory);
 					}
+					monsterStackPane.setVisible(true);
+					
 					if (star == 3) {
 						threeStarCount++;
 					}
@@ -242,13 +253,40 @@ public class MainViewController {
 	private void scrollListMouseClick() {
 		scrollSelected = (String) scrollList.getSelectionModel().getSelectedItem().getChildren().get(1).getUserData();
 		scrollSelectedIV.setImage(new Image("application/images/scrolls/" + scrollSelected + ".png"));
+		if (scrollSelected.equals("LS")) {
+			scrollShadow.setColor(Color.web("#590578"));
+		}
+		else if (scrollSelected.equals("LD")) {
+			scrollShadow.setColor(Color.web("#C6BD96"));
+		}
+		else if (scrollSelected.equals("WaS")) {
+			scrollShadow.setColor(Color.web("#0DCEFB"));
+		}
+		else if (scrollSelected.equals("FS")) {
+			scrollShadow.setColor(Color.web("#EB162B"));
+		}
+		else if (scrollSelected.equals("WiS")) {
+			scrollShadow.setColor(Color.web("#D8E644"));
+		}
+		else if (scrollSelected.equals("MS")) {
+			scrollShadow.setColor(Color.web("#7C1B32"));
+		}
+		scrollSelectedIV.setEffect(scrollShadow);
 	}
 
 	@FXML
 	private void initialize() {
+		monsterStackPane.setVisible(false);
 		monsterIV.setVisible(false);
 		
 		scrollSelectedIV.setImage(new Image("application/images/scrolls/LS.png"));
+		
+		scrollShadow.setOffsetY(0f);
+		scrollShadow.setOffsetX(0f);
+		scrollShadow.setColor(Color.web("#590578"));
+		scrollShadow.setWidth(200);
+		scrollShadow.setHeight(200);
+		scrollSelectedIV.setEffect(scrollShadow);
 
 		// scroll list section
 		Map<String, String> scrollOptions = new LinkedHashMap<String, String>();
