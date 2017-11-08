@@ -66,6 +66,9 @@ public class MainViewController {
     @FXML
     private Label fiveStarCountLabel;
     
+    @FXML
+    private Button resetButton;
+    
     int threeStarCount = 0;
     int fourStarCount = 0;
     int fiveStarCount = 0;
@@ -274,6 +277,19 @@ public class MainViewController {
 		scrollSelectedIV.setEffect(scrollShadow);
 	}
 
+	@FXML
+	private void resetButtonMouseClick() {
+		threeStarCount = 0;
+	    fourStarCount = 0;
+	    fiveStarCount = 0;
+	    
+	    threeStarCountLabel.setText(Integer.toString(threeStarCount));
+		fourStarCountLabel.setText(Integer.toString(fourStarCount));
+		fiveStarCountLabel.setText(Integer.toString(fiveStarCount));
+		
+		monsterHistory.clear();
+	}
+	
 	@FXML
 	private void initialize() {
 		monsterStackPane.setVisible(false);

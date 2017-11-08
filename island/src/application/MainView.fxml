@@ -20,11 +20,12 @@
          </font></Button>
       <ListView fx:id="historyList" layoutY="582.0" orientation="HORIZONTAL" prefHeight="118.0" prefWidth="660.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="187.0" AnchorPane.topAnchor="582.0" />
       <ImageView fx:id="starIV" fitHeight="52.0" fitWidth="160.0" layoutX="134.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="669.0" layoutY="595.0" prefHeight="23.0" prefWidth="100.0" text="3 Star Monsters:" />
-      <Label layoutX="669.0" layoutY="625.0" prefHeight="23.0" prefWidth="100.0" text="4 Star Monsters:" />
-      <Label layoutX="669.0" layoutY="655.0" prefHeight="23.0" prefWidth="100.0" text="5 Star Monsters:" />
-      <Label fx:id="threeStarCountLabel" layoutX="769.0" layoutY="598.0" prefHeight="17.0" prefWidth="19.0" />
-      <Label fx:id="fourStarCountLabel" layoutX="769.0" layoutY="628.0" prefHeight="17.0" prefWidth="19.0" />
-      <Label fx:id="fiveStarCountLabel" layoutX="769.0" layoutY="658.0" prefHeight="17.0" prefWidth="19.0" />
+      <Label layoutX="669.0" layoutY="582.0" prefHeight="23.0" prefWidth="100.0" text="3 Star Monsters:" />
+      <Label layoutX="669.0" layoutY="612.0" prefHeight="23.0" prefWidth="100.0" text="4 Star Monsters:" />
+      <Label layoutX="669.0" layoutY="642.0" prefHeight="23.0" prefWidth="100.0" text="5 Star Monsters:" />
+      <Label fx:id="threeStarCountLabel" layoutX="769.0" layoutY="585.0" prefHeight="17.0" prefWidth="43.0" />
+      <Label fx:id="fourStarCountLabel" layoutX="769.0" layoutY="615.0" prefHeight="17.0" prefWidth="43.0" />
+      <Label fx:id="fiveStarCountLabel" layoutX="769.0" layoutY="645.0" prefHeight="17.0" prefWidth="43.0" />
+      <Button fx:id="resetButton" layoutX="787.0" layoutY="665.0" mnemonicParsing="false" onAction="#resetButtonMouseClick" prefHeight="25.0" prefWidth="50.0" text="Reset" />
    </children>
 </AnchorPane>
